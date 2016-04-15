@@ -39,6 +39,7 @@ class DailySummaryItem extends Album {
 		$this->set('mtime', strftime('%Y-%m-%d %H:%M:%S', $results[0]['mtime']));
 		$this->set('albums', $albums);
 		$this->set('imagecount', $imagecount);
+		$this->set('albumcount', $albumCount);
 		$this->set('thumbfolder', $results[0]['folder']);
 		$this->set('thumbimage', $results[0]['filename']);
 		$this->set('thumbtitle', $results[0]['thumbtitle']);
@@ -46,6 +47,10 @@ class DailySummaryItem extends Album {
 	
 	function getNumImages() {
 		return $this->get('imagecount');
+	}
+	
+	function getNumAlbums() {
+		return $this->get('albumcount');
 	}
 	
 	function getAlbumNames() {
@@ -62,15 +67,6 @@ class DailySummaryItem extends Album {
 		return array_keys($this->get('albums'));		
 	}
 	
-	function getTitle($locale = NULL) {
-		$imageplural = "";
-		if ($this->get('imagecount') > 1) {
-			$imageplural = "s";
-		}
-    	
-		return $this->getTitleDate() . " - " . $this->getImageCount() . " new image$imageplural";
-	}
-	
 	function getDateTime() {
 		return ($this->get('date'));
 	}
@@ -79,22 +75,11 @@ class DailySummaryItem extends Album {
 		return ($this->get('mtime'));
 	}
 	
-	function getDesc($locale = NULL) {
-		$albumplural = $imageplural = "";
-		if ($this->get('imagecount') > 1) {
-			$imageplural = "s";
-		}
-		if ($this->get('albums') > 1) {
-			$albumplural = "s";
-		}
-		return "New photo$imageplural in the " . $this->getAlbumNames() . " album$albumplural";		
-	}
-	
 	function getLink($page = NULL) {
 		return getSearchURL('', $this->linkname, '', 0, NULL);
 	}
 	
-	function getAlbumThumbImage() {
+	function getDailySummaryThumbImage() {
 		if (!is_null($this->albumthumbnail)) {
 			return $this->albumthumbnail;
 		}		

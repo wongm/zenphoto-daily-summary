@@ -15,9 +15,28 @@ function NewDailySummary($maxItems) {
 	$_zp_current_DailySummary = new DailySummary($_zp_gallery, $maxItems);
 }
 
-function getDailySummaryDate() {
+function getDailySummaryDate($format = null) {
     global $_zp_current_DailySummaryItem;
-    return $_zp_current_DailySummaryItem->getDateTime();
+	$d = $_zp_current_DailySummaryItem->getDateTime();
+	if (empty($d) || ($d == '0000-00-00 00:00:00')) {
+		return false;
+	}
+	if (is_null($format)) {
+		return $d;
+	}
+	return zpFormattedDate($format, strtotime($d));
+}
+
+function getDailySummaryModifiedDate($format = null) {
+    global $_zp_current_DailySummaryItem;
+	$d = $_zp_current_DailySummaryItem->getModifedDateTime();
+	if (empty($d) || ($d == '0000-00-00 00:00:00')) {
+		return false;
+	}
+	if (is_null($format)) {
+		return $d;
+	}
+	return zpFormattedDate($format, strtotime($d));
 }
 
 function getDailySummaryUrl() {
@@ -25,18 +44,30 @@ function getDailySummaryUrl() {
     return $_zp_current_DailySummaryItem->getLink();
 }
 
+function getDailySummaryTitle() {
+    global $_zp_current_DailySummaryItem;
+	$imageplural = "";
+	if ($_zp_current_DailySummaryItem->getNumImages() > 1) {
+		$imageplural = "s";
+	}
+	
+	return date("l, F j Y", strtotime($_zp_current_DailySummaryItem->getDateTime())) . " - " . $_zp_current_DailySummaryItem->getNumImages() . " new image$imageplural";
+}
+
 function printDailySummaryUrl($text, $title, $class = NULL, $id = NULL) {
 	printLinkHTML(getDailySummaryUrl(), $text, $title, $class, $id);
 }
 
-function getDailySummaryModifiedDate() {
+function getDailySummaryDesc() {
     global $_zp_current_DailySummaryItem;
-    return $_zp_current_DailySummaryItem->getModifedDateTime();
-}
-
-function getDailySummaryDescription() {
-    global $_zp_current_DailySummaryItem;
-    return $_zp_current_DailySummaryItem->getDesc();
+	$albumplural = $imageplural = "";
+	if ($_zp_current_DailySummaryItem->getNumImages() > 1) {
+		$imageplural = "s";
+	}
+	if ($_zp_current_DailySummaryItem->getNumAlbums() > 1) {
+		$albumplural = "s";
+	}
+	return "New photo$imageplural in the " . getDailySummaryAlbumNameText() . " album$albumplural";		
 }
 
 function getDailySummaryNumImages() {
@@ -95,6 +126,12 @@ function getDailySummaryAlbumNameText($includeLinks = false) {
 		$albumcount++;
 	}
 	return $description;
+}
+
+function getCustomDailySummaryThumb($size, $width = NULL, $height = NULL, $cropw = NULL, $croph = NULL, $cropx = NULL, $cropy = null, $effects = NULL) {
+	global $_zp_current_DailySummaryItem;
+	$thumb = $_zp_current_DailySummaryItem->getDailySummaryThumbImage();
+	return $thumb->getCustomImage($size, $width, $height, $cropw, $croph, $cropx, $cropy, true, $effects);
 }
 
 function next_DailySummaryItem() {

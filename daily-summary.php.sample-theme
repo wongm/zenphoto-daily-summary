@@ -1,0 +1,21 @@
+<?php
+
+NewDailySummary(5);
+
+while (next_DailySummaryItem()) { ?>
+<b><a href="<?php echo getDailySummaryUrl(); ?>"><?php echo date("F j", strtotime(getDailySummaryDate())); ?></a></b>
+<p><img border="0" src="<?php echo getCustomDailySummaryThumb(getOption('thumb_size')); ?>" alt="<?php echo getDailySummaryTitle() ?>" /></p>
+<p>Title: <?php echo getDailySummaryTitle(); ?></p>
+<p>Description: <?php echo getDailySummaryDesc(); ?></p>
+<p>Albums: <?php echo getDailySummaryAlbumNameText(); ?></p>
+<p>Uploaded date: <?php echo date("F j", strtotime(getDailySummaryModifiedDate())); ?></p>
+<p>Image count: <?php echo getDailySummaryNumImages(); ?></p>
+<p>Link: <?php printDailySummaryUrl("See all photos", "Date: " . date("F j", strtotime(getDailySummaryDate())), "extra class", getDailySummaryDate()); ?></p>
+<p>Unordered album list with no links:</p>
+<?php printDailySummaryAlbumNameList(); ?>
+<p>Ordered album list with album links:</p>
+<?php printDailySummaryAlbumNameList(true, "ol"); ?>
+<p>Album list with links:</p>
+<p><?php echo getDailySummaryAlbumNameText(true); ?></p>
+<?php } 
+?>

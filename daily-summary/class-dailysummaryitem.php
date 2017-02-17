@@ -21,6 +21,12 @@ class DailySummaryItem extends Album {
 			WHERE i.`date` >= \"$d1\" AND i.`date` < \"$d2\" 
 			ORDER BY i.hitcounter DESC";
 		$results = query_full_array($imageSql);
+		
+		if (sizeof($results) == 0)
+		{
+			$this->set('albums', array ());
+			return;
+		}
 			
 		foreach($results as $album)
 		{

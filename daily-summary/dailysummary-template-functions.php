@@ -51,7 +51,7 @@ function getDailySummaryTitle() {
 		$imageplural = "s";
 	}
 	
-	return date("l, F j Y", strtotime($_zp_current_DailySummaryItem->getDateTime())) . " - " . $_zp_current_DailySummaryItem->getNumImages() . " new image$imageplural";
+	return date("l, F j Y", strtotime($_zp_current_DailySummaryItem->getDateTime())) . " - " . $_zp_current_DailySummaryItem->getNumImages() . " new photo$imageplural";
 }
 
 function printDailySummaryUrl($text, $title, $class = NULL, $id = NULL) {
@@ -60,14 +60,20 @@ function printDailySummaryUrl($text, $title, $class = NULL, $id = NULL) {
 
 function getDailySummaryDesc() {
     global $_zp_current_DailySummaryItem;
-	$albumplural = $imageplural = "";
+	$imageplural = "";
 	if ($_zp_current_DailySummaryItem->getNumImages() > 1) {
 		$imageplural = "s";
 	}
+    return "New photo$imageplural" .getDailySummaryDescInternal();
+}
+
+function getDailySummaryDescInternal() {
+    global $_zp_current_DailySummaryItem;
+	$albumplural = "";
 	if ($_zp_current_DailySummaryItem->getNumAlbums() > 1) {
 		$albumplural = "s";
 	}
-	return "New photo$imageplural in the " . getDailySummaryAlbumNameText() . " album$albumplural";		
+	return " in the " . getDailySummaryAlbumNameText() . " album$albumplural";		
 }
 
 function getDailySummaryNumImages() {
@@ -156,6 +162,11 @@ function next_DailySummaryItem() {
 		$_zp_current_DailySummaryItem = new DailySummaryItem(array_shift($_zp_DailySummaryItems));
 		return true;
 	}
+}
+
+function getDailySummaryTitleAndDesc()
+{
+    return getDailySummaryTitle() . getDailySummaryDescInternal();
 }
 
 ?>

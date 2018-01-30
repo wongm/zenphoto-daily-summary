@@ -9,7 +9,7 @@ class DailySummary extends Gallery {
 	 * @param object &$gallery The parent gallery
 	 * @return DailySummary
 	 */
-	function DailySummary(&$gallery, $maxItems=10) {
+	function __construct(&$gallery, $maxItems=10) {
 		if (!is_object($gallery) || strtolower(get_class($gallery)) != 'gallery') {
 			debugLogBacktrace('Bad gallery in instantiation of DailySummary');
 			$gallery = $gallery;

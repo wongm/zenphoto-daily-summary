@@ -19,7 +19,8 @@ class DailySummaryItem extends Album {
 			FROM ". prefix('images') ." AS i
 			INNER JOIN ". prefix('albums') ." AS a ON i.albumid = a.id
 			WHERE i.`date` >= \"$d1\" AND i.`date` < \"$d2\" 
-			ORDER BY i.hitcounter DESC";
+			ORDER BY i.daily_score DESC, i.hitcounter DESC";
+
 		$results = query_full_array($imageSql);
 		
 		if (sizeof($results) == 0)

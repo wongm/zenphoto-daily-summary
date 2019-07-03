@@ -33,7 +33,7 @@ class DailySummaryItem extends Album {
 			$folder = $album['folder'];
 			$text = $album['albumtitle'];
 			$text = get_language_string($text);
-			$text = zpFunctions::unTagURLs($text);
+			$text = unTagURLs($text);
 			$imageAlbums[$folder] = $text;
 		}
 		
@@ -94,7 +94,7 @@ class DailySummaryItem extends Album {
 	}
 	
 	// don't want these ones to do anything
-	function save() {}
+	function save($checkupdates = false) {}
 	function loadFileNames($dirs=false) {}
 }
 ?>

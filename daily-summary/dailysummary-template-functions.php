@@ -51,7 +51,7 @@ function getDailySummaryTitle() {
 		$imageplural = "s";
 	}
 	
-	return date("l, F j Y", strtotime($_zp_current_DailySummaryItem->getDateTime())) . " - " . $_zp_current_DailySummaryItem->getNumImages() . " new photo$imageplural";
+	return date("l, j F Y", strtotime($_zp_current_DailySummaryItem->getDateTime())) . " - " . $_zp_current_DailySummaryItem->getNumImages() . " new photo$imageplural";
 }
 
 function printDailySummaryUrl($text, $title, $class = NULL, $id = NULL) {
